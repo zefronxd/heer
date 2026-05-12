@@ -167,7 +167,7 @@ def build_caption_and_lines(kind: str, display_name_html: str) -> (List[str], st
     return lines, caption
 
 # Main message handler (regex detection)
-@app.on_message(filters.text & (~filters.edited))
+@app.on_message(filters.text)
 async def greet_detector_handler(client, message: Message):
     text = message.text or ""
     # get message time in configured timezone
