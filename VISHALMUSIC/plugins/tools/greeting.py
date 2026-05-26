@@ -4,18 +4,21 @@ import re
 import random
 import math
 import asyncio
+import datetime
 import html
 from zoneinfo import ZoneInfo
 from typing import List
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.enums import ParseMode
+
 from VISHALMUSIC import app
 
 # ============ CONFIGURATION ============
 TIMEZONE = os.environ.get("TIMEZONE", "Asia/Kolkata")
 FONT_PATH = os.environ.get("FONT_PATH", "")
-ALLOW_OUT_OF_TIME_REPLY = bool(os.environ.get("ALLOW_OUT_OF_TIME_REPLY", "false").strip())
+ALLOW_OUT_OF_TIME_REPLY = os.environ.get("ALLOW_OUT_OF_TIME_REPLY", "false").lower() == "true"
 
 # ============ GREETING PATTERNS ============
 GOODNIGHT_RE = re.compile(r"\b(good\s*night|goodnight|gn|nighty|nite|g night|gud night)\b", re.IGNORECASE)
@@ -85,13 +88,11 @@ def generate_thumbnail(lines: List[str], username: str = "", width: int = 1280, 
     border_width = 10
     border_color = (255, 215, 0) if not is_night else (100, 150, 255)
     for i in range(border_width):
-        alpha = 255 - (i * 20)
         draw.rectangle([(i, i), (width - i, height - i)], outline=border_color, width=1)
     
     # Corner decorations
     corner_size = 100
     for x, y in [(0, 0), (width - corner_size, 0), (0, height - corner_size), (width - corner_size, height - corner_size)]:
-        # Draw corner curves
         draw.arc([(x, y), (x + corner_size, y + corner_size)], 0, 90, fill=border_color, width=8)
         draw.line([(x + 20, y), (x + corner_size - 20, y)], fill=border_color, width=5)
         draw.line([(x, y + 20), (x, y + corner_size - 20)], fill=border_color, width=5)
@@ -176,11 +177,10 @@ def generate_thumbnail(lines: List[str], username: str = "", width: int = 1280, 
         
         # Glow effect
         for offset in range(5, 0, -1):
-            alpha = 100 - offset * 15
             if idx == 0:
-                draw.text((x - offset, current_y - offset), line, font=font, fill=(255, 220, 100, alpha))
+                draw.text((x - offset, current_y - offset), line, font=font, fill=(255, 220, 100))
             else:
-                draw.text((x - offset, current_y - offset), line, font=font, fill=(255, 200, 100, alpha))
+                draw.text((x - offset, current_y - offset), line, font=font, fill=(255, 200, 100))
         
         # Main text color
         if idx == 0:
@@ -193,24 +193,6 @@ def generate_thumbnail(lines: List[str], username: str = "", width: int = 1280, 
         
         draw.text((x, current_y), line, font=font, fill=text_color)
         current_y += h + 40
-    
-    # Decorative line
-    sep_y = current_y + 30
-    if sep_y < height - 150:
-        line_y = sep_y
-        for i in range(3):
-            y_pos = line_y + (i * 5)
-            gradient_start = (center_x - 250, y_pos)
-            gradient_end = (center_x + 250, y_pos)
-            for step in range(500):
-                step_x = gradient_start[0] + step
-                if step_x <= gradient_end[0]:
-                    ratio = step / 500
-                    if is_night:
-                        color = (100 + int(155 * ratio), 100 + int(100 * ratio), 255)
-                    else:
-                        color = (255, 150 + int(70 * ratio), 50 + int(50 * ratio))
-                    draw.point((step_x, y_pos), fill=color)
     
     # Draw username with style
     if username:
@@ -226,7 +208,7 @@ def generate_thumbnail(lines: List[str], username: str = "", width: int = 1280, 
         bg_x2 = width - 40 + bg_padding
         bg_y2 = height - 20 + bg_padding
         
-        draw.rectangle([bg_x1, bg_y1, bg_x2, bg_y2], fill=(0, 0, 0, 150), outline=border_color, width=3)
+        draw.rectangle([bg_x1, bg_y1, bg_x2, bg_y2], fill=(0, 0, 0), outline=border_color, width=3)
         draw.text((width - w - 80, height - h - 60), user_text, font=small_font, fill=(255, 215, 0))
     
     # Add special graphics
@@ -272,7 +254,7 @@ def generate_thumbnail(lines: List[str], username: str = "", width: int = 1280, 
     output = io.BytesIO()
     img.save(output, format="JPEG", quality=92, optimize=True)
     output.seek(0)
-    return output.read()
+    return output.getvalue()
 
 # ============ SEND THUMBNAIL FUNCTION ============
 async def make_and_send_thumbnail(message: Message, lines: List[str], caption_text: str):
@@ -289,7 +271,7 @@ async def make_and_send_thumbnail(message: Message, lines: List[str], caption_te
         if not uname.strip():
             uname = "Dear User"
         
-        # Generate image in thread
+        # Generate image
         img_bytes = await asyncio.to_thread(generate_thumbnail, lines, uname)
         
         # Create button
@@ -297,19 +279,19 @@ async def make_and_send_thumbnail(message: Message, lines: List[str], caption_te
             InlineKeyboardButton("✨ Download ✨", url=f"https://t.me/{app.username or 'VISHALMUSIC'}")
         ]])
         
-        # Send photo
+        # Send photo - FIXED parse mode
         await message.reply_photo(
             photo=img_bytes,
             caption=caption_text,
             reply_markup=button,
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
     except Exception as e:
-        # Fallback
+        # Fallback text - FIXED parse mode
         safe_name = html.escape(uname if uname else "User")
         await message.reply_text(
             f"{caption_text}\n\n— {safe_name}\n\n⚠️ Image error: {str(e)[:50]}",
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
 
 # ============ CAPTION BUILDER ============
@@ -383,7 +365,7 @@ async def greet_detector_handler(client, message: Message):
         else:
             await message.reply_text(
                 f"✨ {html.escape(uname)}, abhi raat ka time nahi hai, phir bhi - ɢᴏᴏᴅ ɴɪɢʜᴛ! 🌙",
-                parse_mode="html"
+                parse_mode=ParseMode.HTML
             )
     elif is_gm:
         if is_good_morning(local_dt) or ALLOW_OUT_OF_TIME_REPLY:
@@ -392,7 +374,7 @@ async def greet_detector_handler(client, message: Message):
         else:
             await message.reply_text(
                 f"🌤️ {html.escape(uname)}, abhi subah ka time nahi hai, phir bhi - ɢᴏᴏᴅ ᴍᴏʀɴɪɴɢ!",
-                parse_mode="html"
+                parse_mode=ParseMode.HTML
             )
 
 # ============ COMMAND HANDLERS ============
@@ -428,7 +410,7 @@ async def cmd_goodnight(client, message: Message):
     else:
         await message.reply_text(
             f"{html.escape(uname)}, abhi night time nahi hai. Still, /goodnight",
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
 
 @app.on_message(filters.command(["goodmorning", "gm"]))
@@ -463,5 +445,5 @@ async def cmd_goodmorning(client, message: Message):
     else:
         await message.reply_text(
             f"{html.escape(uname)}, abhi morning time nahi hai. Still, /goodmorning",
-            parse_mode="html"
+            parse_mode=ParseMode.HTML
         )
