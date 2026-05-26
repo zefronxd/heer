@@ -9,7 +9,7 @@ The following versions of the project are actively maintained with security upda
 | v1.0    | ❌         |
 | v2.0    | ✅         |
 
----
+--- 
 
 ## 📣 Reporting a Vulnerability
 
