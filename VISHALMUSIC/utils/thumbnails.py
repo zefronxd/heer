@@ -64,6 +64,22 @@ def trim_to_width(text: str, font: ImageFont.FreeTypeFont, max_w: int) -> str:
     return ellipsis
 
 
+def is_valid_url(url: str) -> bool:
+    """Check if URL is valid and complete"""
+    if not url or not isinstance(url, str):
+        return False
+    # Check if URL starts with http:// or https://
+    if not url.startswith(('http://', 'https://')):
+        return False
+    # Check if URL has domain
+    if 'wallpapercave.com' not in url:
+        return False
+    # Check if URL has valid extension or is not just a path
+    if url.startswith('/') or url.count('/') < 2:
+        return False
+    return True
+
+
 async def get_random_anime_background() -> str:
     """Download a random anime background from wallpapercave - HAR BAAR DIFFERENT"""
     
@@ -80,64 +96,74 @@ async def get_random_anime_background() -> str:
             'Accept-Language': 'en-US,en;q=0.5',
         }
         
-        # Multiple pages se images lenge for more variety
-        pages = [
-            "https://wallpapercave.com/anime-girl-laptop-wallpapers",
-            "https://wallpapercave.com/anime-girl-wallpapers",
-            "https://wallpapercave.com/anime-aesthetic-laptop-wallpapers",
-            "https://wallpapercave.com/cute-anime-girl-wallpapers",
-            "https://wallpapercave.com/anime-art-wallpapers"
-        ]
+        # Specific page with high-quality anime wallpapers
+        page_url = "https://wallpapercave.com/anime-girl-laptop-wallpapers"
         
         all_image_urls = []
         
-        # Try multiple pages
-        for page_url in random.sample(pages, min(3, len(pages))):
-            try:
-                async with session.get(page_url, headers=headers, timeout=10) as resp:
-                    if resp.status == 200:
-                        html = await resp.text()
+        try:
+            async with session.get(page_url, headers=headers, timeout=10) as resp:
+                if resp.status == 200:
+                    html = await resp.text()
+                    
+                    # Pattern to find image URLs - fixed pattern
+                    patterns = [
+                        r'https?://wallpapercave\.com/(?:uwp|wp)/[a-zA-Z0-9_\-]+\.(?:jpg|png|webp|jpeg)',
+                        r'https?://wallpapercave\.com/wp/[^"\']+\.(?:jpg|png|webp)',
+                        r'https?://wallpapercave\.com/uwp/[^"\']+\.(?:jpg|png|webp)',
+                    ]
+                    
+                    for pattern in patterns:
+                        urls = re.findall(pattern, html, re.IGNORECASE)
+                        for url in urls:
+                            if is_valid_url(url):
+                                all_image_urls.append(url)
+                    
+                    # Alternative: Find image IDs and construct URLs
+                    wp_ids = re.findall(r'wp/(\d+)\.', html)
+                    uwp_ids = re.findall(r'uwp/(\d+)\.', html)
+                    
+                    for wp_id in wp_ids:
+                        constructed_url = f"https://wallpapercave.com/wp/wp{wp_id}.jpg"
+                        all_image_urls.append(constructed_url)
+                    
+                    for uwp_id in uwp_ids:
+                        constructed_url = f"https://wallpapercave.com/uwp/uwp{uwp_id}.jpg"
+                        all_image_urls.append(constructed_url)
                         
-                        # Different patterns to extract images
-                        patterns = [
-                            r'https://wallpapercave\.com/(?:uwp|wp)/[^"\']+\.(?:jpg|png|webp|jpeg)',
-                            r'https://wallpapercave\.com/download/[^"\']+',
-                            r'data-src="([^"]+\.(?:jpg|png|webp))"',
-                            r'<img[^>]+src="([^"]+\.(?:jpg|png|webp))"'
-                        ]
-                        
-                        for pattern in patterns:
-                            urls = re.findall(pattern, html, re.IGNORECASE)
-                            # Convert download links to direct image links
-                            urls = [url.replace('/download/', '/wp/') + '.jpg' if '/download/' in url else url for url in urls]
-                            all_image_urls.extend(urls)
-                            
-            except Exception as e:
-                print(f"Error fetching {page_url}: {e}")
-                continue
+        except Exception as e:
+            print(f"Error fetching page: {e}")
+            raise Exception("Failed to fetch wallpapers")
         
-        # Remove duplicates
+        # Remove duplicates and invalid URLs
         all_image_urls = list(set(all_image_urls))
-        
-        # Filter for good quality images
-        all_image_urls = [url for url in all_image_urls if 'thumb' not in url.lower() and 'thumbnail' not in url.lower()]
+        all_image_urls = [url for url in all_image_urls if is_valid_url(url)]
         
         if not all_image_urls:
-            raise Exception("No images found on wallpapercave")
+            raise Exception("No valid images found on wallpapercave")
         
         # Pick a random wallpaper
         bg_url = random.choice(all_image_urls)
         
-        print(f"Downloading random background from: {bg_url[:100]}...")
+        print(f"Downloading random background from: {bg_url}")
         
-        # Download the wallpaper
-        async with session.get(bg_url, headers=headers, timeout=15) as img_resp:
-            if img_resp.status == 200:
-                async with aiofiles.open(bg_cache_path, "wb") as f:
-                    await f.write(await img_resp.read())
-                return bg_cache_path
-            else:
-                raise Exception(f"Failed to download: {img_resp.status}")
+        # Download the wallpaper with retry
+        for attempt in range(3):
+            try:
+                async with session.get(bg_url, headers=headers, timeout=15) as img_resp:
+                    if img_resp.status == 200:
+                        async with aiofiles.open(bg_cache_path, "wb") as f:
+                            await f.write(await img_resp.read())
+                        return bg_cache_path
+                    else:
+                        print(f"Attempt {attempt + 1} failed: {img_resp.status}")
+            except Exception as e:
+                print(f"Attempt {attempt + 1} error: {e}")
+                if attempt == 2:
+                    raise
+                continue
+        
+        raise Exception("Failed to download image after 3 attempts")
 
 
 async def get_thumb(videoid: str) -> str:
@@ -172,8 +198,17 @@ async def get_thumb(videoid: str) -> str:
         thumb_path = None
 
     # Get random anime background from website only
-    background_path = await get_random_anime_background()
-    
+    try:
+        background_path = await get_random_anime_background()
+    except Exception as e:
+        print(f"Background download failed: {e}")
+        # Instead of failing, use YouTube thumbnail as background
+        if thumb_path and os.path.exists(thumb_path):
+            background_path = thumb_path
+            thumb_path = None  # Don't use it twice
+        else:
+            raise Exception("No background image available")
+
     # Random accent color
     accent = random.choice(ACCENTS)
     
@@ -212,7 +247,7 @@ async def get_thumb(videoid: str) -> str:
     except OSError:
         title_font = regular_font = heart_font = ImageFont.load_default()
 
-    # Video thumbnail
+    # Video thumbnail (if available and different from background)
     if thumb_path and os.path.exists(thumb_path):
         try:
             thumb = Image.open(thumb_path).resize((THUMB_W, THUMB_H))
@@ -260,7 +295,7 @@ async def get_thumb(videoid: str) -> str:
 
     # Cleanup temporary files
     try:
-        if thumb_path and os.path.exists(thumb_path):
+        if thumb_path and os.path.exists(thumb_path) and thumb_path != background_path:
             os.remove(thumb_path)
         if background_path and os.path.exists(background_path):
             os.remove(background_path)
