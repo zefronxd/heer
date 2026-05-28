@@ -16,6 +16,7 @@ from strings import get_string
 from VISHALMUSIC import LOGGER, YouTube, app
 from VISHALMUSIC.misc import db
 from VISHALMUSIC.utils.database import (
+    is_autoplay,
     add_active_chat,
     add_active_video_chat,
     get_lang,
@@ -266,14 +267,24 @@ class Call:
             if not check:
                     await _clear_(chat_id)
                     if chat_id in self.active_calls:
-                        try:
-                            await client.leave_call(chat_id)
-                        except NoActiveGroupCall:
-                            pass
-                        except Exception:
-                            pass
-                        finally:
-                            self.active_calls.discard(chat_id)
+                        self.active_calls.discard(chat_id)
+                        if await is_autoplay(chat_id):
+                            try:
+                                from VISHALMUSIC.utils.stream.autoplay import auto_play_next
+                                asyncio.create_task(auto_play_next(app, chat_id))
+                            except Exception as ap_err:
+                                print(f"⚠️ autoplay trigger error: {ap_err}")
+                                try:
+                                    await client.leave_call(chat_id)
+                                except Exception:
+                                    pass
+                        else:
+                            try:
+                                await client.leave_call(chat_id)
+                            except NoActiveGroupCall:
+                                pass
+                            except Exception:
+                                pass
                     return
         except:
             try:
