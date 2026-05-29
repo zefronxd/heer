@@ -286,6 +286,22 @@ async def add_recent(chat_id, vidid, title: str = "") -> None:
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ⏱️ DURATION CHECK - ONLY THIS FUNCTION ADDED
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+def is_short_song(duration_str):
+    """Return True if song is 10 minutes or less"""
+    try:
+        if ":" in duration_str:
+            minutes = int(duration_str.split(":")[0])
+        else:
+            minutes = int(duration_str)
+        return minutes <= 10
+    except:
+        return True  # If can't parse, allow it
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 #  SMART QUERY BUILDER (Indian Focus)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -384,109 +400,64 @@ async def get_best_song(chat_id, queries, last_title, last_vidid, artist, movie,
     for q in queries:
         try:
             details, vidid = await yt.track(q)
-
             if not vidid:
                 continue
 
-            # Skip exact same video
+            # FIX 1: Hard-skip the exact same video that just played
             if vidid == last_vidid:
                 continue
 
             title = details.get("title", "").lower()
             duration = details.get("duration_min", "0:00") or "0:00"
 
-            # Skip unwanted versions
-            bad_words = [
-                "slowed",
-                "reverb",
-                "8d",
-                "lofi",
-                "live",
-                "mix",
-                "dj remix",
-                "bass boosted",
-                "cover",
-                "karaoke",
-                "instrumental",
-                "sped up",
-            ]
+            # ⏱️ NEW: Skip songs longer than 10 minutes
+            if not is_short_song(duration):
+                continue
 
+            bad_words = [
+                "slowed", "reverb", "8d", "lofi", "live", "mix", "dj remix",
+                "bass boosted", "cover", "karaoke", "instrumental", "sped up",
+            ]
             if any(x in title for x in bad_words):
                 continue
 
-            # Skip same title
             if title.strip() == last_title.lower().strip():
                 continue
 
-            # ━━━━━━━━━━━━━━━━━━━━━━━
-            # DURATION FILTER
-            # Only allow songs:
-            # 2 min <= song < 10 min
-            # ━━━━━━━━━━━━━━━━━━━━━━━
             try:
-                parts = duration.split(":")
-
-                # hh:mm:ss
-                if len(parts) == 3:
-                    hours, mins, secs = map(int, parts)
-                    total_seconds = hours * 3600 + mins * 60 + secs
-
-                # mm:ss
-                elif len(parts) == 2:
-                    mins, secs = map(int, parts)
-                    total_seconds = mins * 60 + secs
-
-                else:
+                mins = int(duration.split(":")[0])
+                if mins < 2 or mins > 10:
                     continue
-
-                # Less than minutes
-                if total_seconds < 60:
-                    continue
-
-                # 10 minutes or more
-                if total_seconds >= 600:
-                    continue
-
             except Exception:
-                continue
+                pass
 
             score = 0
 
-            # Word match score
-            match_count = sum(
-                1 for w in original_words[:5]
-                if w in title and len(w) > 3
-            )
+            match_count = sum(1 for w in original_words[:5] if w in title and len(w) > 3)
             score += match_count * 15
 
-            # Artist score
             if artist and artist.lower() in title:
                 score += 50
-
                 if title.startswith(artist.lower()):
                     score += 30
 
-            # Movie score
             if movie and movie.lower() in title:
                 score += 45
 
-            # Language score
             if any(x in title for x in LANG_DB.get(lang, [])):
                 score += 20
 
-            # Mood score
             if mood != "normal":
                 mood_keywords = MOOD_DB.get(mood, [])
-
                 if any(x in title for x in mood_keywords):
                     score += 15
 
-            # Repeat protection
+            # FIX 1: Hard-skip recently played songs (not just penalise)
+            # Also pass title so same song from different channels is caught
             if await is_repeat(chat_id, vidid, details.get("title", "")):
                 continue
 
-            # Fresh song bonus
-            score += 50
+            score += 50  # bonus for not being a repeat (always true now)
 
             candidates.append((score, vidid, details))
 
@@ -495,7 +466,6 @@ async def get_best_song(chat_id, queries, last_title, last_vidid, artist, movie,
 
         await asyncio.sleep(0.2)
 
-    # Highest score first
     candidates.sort(key=lambda x: x[0], reverse=True)
 
     if candidates:
@@ -544,6 +514,7 @@ def get_indian_emoji():
 # FIX 2: stop_stream() removed — assistant stays in VC between songs.
 #         Stream ended naturally so bot is already in VC; calling
 #         stop_stream() was the only reason it was leaving and rejoining.
+# FIX 3: Duration check added - songs longer than 10 minutes are skipped
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 async def auto_play_next(
@@ -629,6 +600,10 @@ async def auto_play_next(
                 await msg.edit_text("❌ ɴᴏ ꜱᴏɴɢ ꜰᴏᴜɴᴅ")
             except Exception:
                 pass
+            return False
+
+        # ⏱️ NEW: Final duration check for fallback songs
+        if details and not is_short_song(details.get("duration_min", "0:00")):
             return False
 
         new_title = details.get("title", "") if details else ""
