@@ -290,15 +290,21 @@ async def add_recent(chat_id, vidid, title: str = "") -> None:
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 def is_short_song(duration_str):
-    """Return True if song is 10 minutes or less"""
+    """Return True if song is 10 minutes or less. Rejects unknown/None duration."""
+    if not duration_str:
+        return False  # Unknown duration — reject to be safe
     try:
-        if ":" in duration_str:
-            minutes = int(duration_str.split(":")[0])
+        if ":" in str(duration_str):
+            parts = str(duration_str).split(":")
+            if len(parts) == 3:
+                # HH:MM:SS format — anything with an hour is too long
+                return False
+            minutes = int(parts[0])
         else:
-            minutes = int(duration_str)
-        return minutes <= 10
-    except:
-        return True  # If can't parse, allow it
+            minutes = int(duration_str) // 60
+        return 1 <= minutes <= 10
+    except Exception:
+        return False  # If can't parse, reject to be safe
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━
