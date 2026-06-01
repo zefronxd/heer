@@ -8,9 +8,9 @@ assistants = []
 assistantids = []
 
 GROUPS_TO_JOIN = [
-    "ItsMeVishalBots",
+    "Bot_support_channell",
+    "team_secrat_bots",
 ]
-
 
 # Initialize userbots
 class Userbot:
