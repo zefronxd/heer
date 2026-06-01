@@ -8,7 +8,7 @@ assistants = []
 assistantids = []
 
 GROUPS_TO_JOIN = [
-    "Bot_support_channell",
+    "Botsupportchannell",
     "team_secrat_bots",
 ]
 
