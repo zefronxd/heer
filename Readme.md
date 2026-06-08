@@ -234,12 +234,12 @@ tmux kill-session -t HEER -music  # Terminate session
     </tr>
     <tr>
       <td align="center">
-        <a href="https://t.me/Its_me_Vishall">
+        <a href="https://t.me/crush_hu_tera">
           <img src="https://img.shields.io/badge/👨‍💻_CONTACT_OWNER-4CAF50?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000" width="220"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://t.me/HEER xMusic_Robot">
+        <a href="https://t.me/Destiny_musicsbot">
           <img src="https://img.shields.io/badge/🤖_TRY_BOT_NOW-FF69B4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000" width="220"/>
         </a>
       </td>
