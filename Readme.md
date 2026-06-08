@@ -107,8 +107,6 @@ API_KEY=external_api_key
 API_URL=external_api_url
 ```
 
-```
-
 <details>
 <summary><b>📖 DETAILED CONFIGURATION GUIDE</b></summary>
 
