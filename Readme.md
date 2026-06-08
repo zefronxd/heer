@@ -3,7 +3,7 @@
 <!-- ANIMATED HEADER --> 
 
 <p align="center">
-  <img src="https://h.uguu.se/mXbyJxwi.jpg" alt="HEER X MUSIC" width="600"/>
+  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" />
 </p>
 
 <!-- MAIN IMAGE BANNER -->
@@ -12,7 +12,7 @@
   <div style="position: relative; border: 4px solid transparent; border-radius: 25px; background: linear-gradient(45deg, #FF1493, #00BFFF, #FFD700, #FF1493); background-size: 400% 400%; animation: gradient 8s ease infinite; padding: 4px; margin: 20px 0;">
     <div style="background: #000; border-radius: 20px; padding: 15px; position: relative;">
       <!-- MAIN IMAGE -->
-      <img src="https://files.catbox.moe/h9dan0.jpg" width="700" style="border-radius: 15px; box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);" alt="HEER  X Music Banner" />
+      <img src="https://h.uguu.se/mXbyJxwi.jpg" width="700" style="border-radius: 15px; box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);" alt="HEER  X Music Banner" />
     </div>
   </div>
 </div>
