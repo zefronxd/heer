@@ -30,4 +30,4 @@ If you find a security vulnerability, please follow the steps below to report it
 * Please keep the details of the vulnerability confidential until a fix is released.
 * We encourage and support responsible disclosure to ensure user safety.
 
----
+----
