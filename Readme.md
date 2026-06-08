@@ -213,7 +213,7 @@ tmux kill-session -t HEER -music  # Terminate session
   <table>
     <tr>
       <td align="center">
-        <a href="https://t.me/ItsMeVishalSupport">
+        <a href="https://t.me/yaaroo_ka_kafila">
           <img src="https://img.shields.io/badge/💬_SUPPORT_GROUP-0088cc?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000" width="220"/>
         </a>
       </td>
@@ -288,7 +288,7 @@ tmux kill-session -t HEER -music  # Terminate session
 </p>
 
 <div align="center">
-  <p><em>✨ Crafted with passion and dedication by <a href="https://t.me/Its_me_Vishall" style="color: #FF1493; text-decoration: none; font-weight: bold;">»»—⎯⁠⁠⁠⁠‌꯭꯭νιѕнαL𝅃 ₊꯭♡゙꯭. »</a> ✨</em></p>
+  <p><em>✨ Crafted with passion and dedication by <a href="https://t.me/crush_hu_tera" style="color: #FF1493; text-decoration: none; font-weight: bold;">»»—⎯⁠⁠⁠⁠‌꯭꯭𝗭𝗲‌𝗳𝗿𝗼‌𝗻 ‌🔥𝅃 ₊꯭♡゙꯭. »</a> ✨</em></p>
 </div>
 
 ---
