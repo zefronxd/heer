@@ -1,6 +1,6 @@
 {
-  "name": "VISHAL X MUSIC",
-  "description": "VISHAL X MUSIC is a powerful and versatile Telegram Music Player Bot built with Python, utilizing Pyrogram and Py-Tgcalls libraries for high-quality group voice chat music streaming. This bot offers seamless playback, custom download server integration, and AI-enhanced features for a premium user experience.",
+  "name": "heer X MUSIC",
+  "description": "heer X MUSIC is a powerful and versatile Telegram Music Player Bot built with Python, utilizing Pyrogram and Py-Tgcalls libraries for high-quality group voice chat music streaming. This bot offers seamless playback, custom download server integration, and AI-enhanced features for a premium user experience.",
   "logo": "https://telegra.ph/file/2c6d1a6f78eba6199933a.jpg",
   "keywords": [
     "python3",
@@ -8,7 +8,7 @@
     "music-bot",
     "pyrogram",
     "py-tgcalls",
-    "VishalXMusic"
+    "heer"
   ],
   "env": {
     "API_ID": {
