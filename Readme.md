@@ -1,4 +1,4 @@
-🎵✨ VAISHALI X MUSIC ✨🎵
+🎵✨ HEER  X MUSIC ✨🎵
 
 <!-- ANIMATED HEADER --> 
 
@@ -12,7 +12,7 @@
   <div style="position: relative; border: 4px solid transparent; border-radius: 25px; background: linear-gradient(45deg, #FF1493, #00BFFF, #FFD700, #FF1493); background-size: 400% 400%; animation: gradient 8s ease infinite; padding: 4px; margin: 20px 0;">
     <div style="background: #000; border-radius: 20px; padding: 15px; position: relative;">
       <!-- MAIN IMAGE -->
-      <img src="https://files.catbox.moe/h9dan0.jpg" width="700" style="border-radius: 15px; box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);" alt="Vaishali X Music Banner" />
+      <img src="https://files.catbox.moe/h9dan0.jpg" width="700" style="border-radius: 15px; box-shadow: 0 0 50px rgba(255, 20, 147, 0.5);" alt="HEER  X Music Banner" />
     </div>
   </div>
 </div>
@@ -20,7 +20,7 @@
 <!-- ANIMATED TITLE -->
 
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=800&size=35&duration=4000&pause=1000&color=FF1493&center=true&vCenter=true&width=700&height=60&lines=🎶+VAISHALI+X+MUSIC+✨;🔥+PREMIUM+TELEGRAM+MUSIC+BOT;🚀+ULTIMATE+STREAMING+EXPERIENCE+🎵" alt="Animated Title" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=800&size=35&duration=4000&pause=1000&color=FF1493&center=true&vCenter=true&width=700&height=60&lines=🎶+HEER +X+MUSIC+✨;🔥+PREMIUM+TELEGRAM+MUSIC+BOT;🚀+ULTIMATE+STREAMING+EXPERIENCE+🎵" alt="Animated Title" />
 </h1>
 
 <!-- DEVELOPER INTRO -->
@@ -37,13 +37,13 @@
   <table>
     <tr>
       <td align="center">
-        <a href="https://github.com/ItsMeVishal0/VishalMusic/stargazers">
-          <img src="https://img.shields.io/github/stars/ItsMeVishal0/VishalMusic?style=for-the-badge&logo=github&logoColor=white&color=FFD700&label=STARS" />
+        <a href="https://github.com/zefronxd/heer/stargazers">
+          <img src="https://img.shields.io/github/stars/ItsMeVishal0/heer?style=for-the-badge&logo=github&logoColor=white&color=FFD700&label=STARS" />
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/ItsMeVishal0/VishalMusic/network/members">
-          <img src="https://img.shields.io/github/forks/ItsMeVishal0/VishalMusic?style=for-the-badge&logo=git&logoColor=white&color=00FF00&label=FORKS" />
+        <a href="https://github.com/zefronxd/heer/network/members">
+          <img src="https://img.shields.io/github/forks/ItsMeVishal0/heer?style=for-the-badge&logo=git&logoColor=white&color=00FF00&label=FORKS" />
         </a>
       </td>
       <td align="center">
@@ -123,7 +123,7 @@ COOKIE_URL Secure Paste Service Export YouTube cookies → Upload to paste servi
   <table>
     <tr>
       <td align="center">
-        <a href="http://dashboard.heroku.com/new?template=https://github.com/ItsMeVishal0/VishalMusic">
+        <a href="http://dashboard.heroku.com/new?template=https://github.com/zefronxd/heer">
           <img src="https://img.shields.io/badge/🚀_HEROKU_DEPLOY-430098?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000000" width="250"/>
         </a>
         <br>
@@ -145,24 +145,24 @@ COOKIE_URL Secure Paste Service Export YouTube cookies → Upload to paste servi
 
 ```bash
 # Step 1: Clone Repository
-git clone https://github.com/ItsMeVishal0/VishalMusic.git
-cd VishalMusic
+git clone https://github.com/zefronxd/heer.git
+cd heer
 
 # Step 2: Create Environment File
 nano .env
 # Paste all your environment variables and save
 
 # Step 3: Build Docker Image
-docker build -t vaishali-music-bot .
+docker build -t HEER -music-bot .
 
 # Step 4: Run Container
-docker run -d --name vaishali-bot --env-file .env --restart unless-stopped vaishali-music-bot
+docker run -d --name HEER -bot --env-file .env --restart unless-stopped HEER -music-bot
 
 # Management Commands
-docker logs -f vaishali-bot        # Live logs monitoring
-docker stop vaishali-bot           # Stop container
-docker start vaishali-bot          # Start container
-docker restart vaishali-bot        # Restart container
+docker logs -f HEER -bot        # Live logs monitoring
+docker stop HEER -bot           # Stop container
+docker start HEER -bot          # Start container
+docker restart HEER -bot        # Restart container
 ```
 
 </details>
@@ -181,11 +181,11 @@ sudo apt install -y nodejs
 npm install -g npm
 
 # Repository Setup
-git clone https://github.com/ItsMeVishal0/VishalMusic.git
-cd VishalMusic
+git clone https://github.com/zefronxd/heer.git
+cd heer
 
 # Session Management with tmux
-tmux new -s vaishali-music
+tmux new -s HEER -music
 
 # Virtual Environment & Dependencies
 python3 -m venv venv
@@ -199,8 +199,8 @@ bash start   # Launch the bot
 
 # Useful Session Commands
 tmux detach                          # Detach session (Ctrl+B then D)
-tmux attach-session -t vaishali-music # Reattach to session
-tmux kill-session -t vaishali-music  # Terminate session
+tmux attach-session -t HEER -music # Reattach to session
+tmux kill-session -t HEER -music  # Terminate session
 ```
 
 </details>
@@ -218,7 +218,7 @@ tmux kill-session -t vaishali-music  # Terminate session
         </a>
       </td>
       <td align="center">
-        <a href="https://t.me/ItsMeVishalBots">
+        <a href="https://t.me/yaaroo_ka_kafila">
           <img src="https://img.shields.io/badge/📢_UPDATES_CHANNEL-6A5ACD?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000" width="220"/>
         </a>
       </td>
@@ -230,7 +230,7 @@ tmux kill-session -t vaishali-music  # Terminate session
         </a>
       </td>
       <td align="center">
-        <a href="https://t.me/VaishalixMusic_Robot">
+        <a href="https://t.me/HEER xMusic_Robot">
           <img src="https://img.shields.io/badge/🤖_TRY_BOT_NOW-FF69B4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000" width="220"/>
         </a>
       </td>
@@ -294,7 +294,7 @@ tmux kill-session -t vaishali-music  # Terminate session
 ---
 
 <div align="center">
-  <sub>🎵 <strong>Vaishali X Music</strong> - Redefining Music Streaming Experience on Telegram Since 2023 🎶</sub>
+  <sub>🎵 <strong>HEER  X Music</strong> - Redefining Music Streaming Experience on Telegram Since 2023 🎶</sub>
 </div>
 
 <!-- WAVING FOOTER -->

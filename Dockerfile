@@ -19,4 +19,4 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # Expose nothing; this is a background worker
-CMD ["python3", "-m", "VISHALMUSIC"]
+CMD ["python3", "-m", "heer"]
