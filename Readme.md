@@ -27,7 +27,7 @@
 
 <div align="center" style="background: linear-gradient(90deg, #FF1493, #00BFFF, #FFD700); padding: 3px; border-radius: 50px; margin: 20px 0;">
   <div style="background: #000; padding: 15px; border-radius: 45px;">
-    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=18&duration=3000&color=00BFFF&center=true&width=600&lines=💫+CRAFTED+WITH+LOVE+BY+VISHAL+✨;🔥+PASSIONATE+DEVELOPER+•+MUSIC+LOVER+🎶;🚀+INNOVATING+TELEGRAM+BOTS+SINCE+2023+💻" />
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=18&duration=3000&color=00BFFF&center=true&width=600&lines=💫+CRAFTED+WITH+LOVE+BY+zefron+✨;🔥+PASSIONATE+DEVELOPER+•+MUSIC+LOVER+🎶;🚀+INNOVATING+TELEGRAM+BOTS+SINCE+2023+💻" />
   </div>
 </div>
 
@@ -82,20 +82,31 @@
 🔐 ESSENTIAL CREDENTIALS REQUIRED
 
 ```env
+```env
 # ========== REQUIRED VARIABLES ==========
-API_ID=your_telegram_api_id           # From https://my.telegram.org
-API_HASH=your_telegram_api_hash       # From https://my.telegram.org
-BOT_TOKEN=bot_father_token           # Create via @BotFather
-OWNER_ID=your_user_id                # Your Telegram User ID
-LOGGER_ID=log_channel_id             # For bot logs and activities
-STRING_SESSION=pyrogram_session      # Generate from @SessionBuilderbot
-MONGO_DB_URI== public available dm owner # MongoDB Atlas connection string
-COOKIE_URL=https://pastebin.com/RurxsvMF     # For enhanced YouTube performance
+API_ID=your_telegram_api_id
+API_HASH=your_telegram_api_hash
+BOT_TOKEN=bot_father_token
+OWNER_ID=your_user_id
+LOGGER_ID=log_channel_id
+STRING_SESSION=pyrogram_session
+
+# Database
+MONGO_DB_URI=your_mongodb_connection_string
+
+# Music & Performance
+COOKIE_URL=https://pastebin.com/RurxsvMF
+
+# AI Providers (Required)
+OPENROUTER_KEY=your_openrouter_api_key
+GROQ_API_KEY=your_groq_api_key
 
 # ========== OPTIONAL ENHANCEMENTS ==========
-DEEP_API=deep_ai_key                 # For AI features - https://deepai.org
-API_KEY=external_api_key            # Additional music API key
-API_URL=external_api_url            # External service endpoint
+DEEP_API=deep_ai_key
+API_KEY=external_api_key
+API_URL=external_api_url
+```
+
 ```
 
 <details>
