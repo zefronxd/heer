@@ -33,7 +33,7 @@ _formats_cache: Dict[str, Tuple[float, List[Dict], str]] = {}
 _formats_lock = asyncio.Lock()
 
 # ============ API CONFIGURATION ============
-SHRUTI_API_KEY = "ShrutiBotsidOAJ8j4a3rIYzefr4KO"
+SHRUTI_API_KEY = "ShrutiBotsdZvv4iyovLZxFlVzZhv4"
 
 # API 1: Primary Shruti API (Direct Download)
 PRIMARY_API_URL = "https://api.shrutibots.site"
@@ -723,6 +723,39 @@ class YouTubeAPI:
         return (0, "All format attempts failed")
 
     @capture_internal_err
+    async def audio(self, link: str, videoid: Union[str, bool, None] = None) -> Tuple[int, str]:
+        link = self._prepare_link(link, videoid)
+        _check_rate_limit()
+
+        ytdlp_args = [
+            "yt-dlp", *(_cookies_args()), "--no-warnings", "--geo-bypass", "--force-ipv4",
+            "-g", "-f", "bestaudio[ext=webm]/bestaudio/best", link
+        ]
+        stdout, stderr = await _exec_proc(*ytdlp_args)
+
+        if stdout:
+            stream_url = stdout.decode().split("\n")[0].strip()
+            if stream_url and stream_url.startswith("http"):
+                return (1, stream_url)
+
+        error_msg = stderr.decode() if stderr else "Unknown error"
+        if "429" in error_msg or "Too Many Requests" in error_msg:
+            await asyncio.sleep(30)
+            return (0, "Rate limited")
+
+        for fmt in ("bestaudio/best", "bestaudio", "best"):
+            stdout, _ = await _exec_proc(
+                "yt-dlp", *(_cookies_args()), "--no-warnings", "-g", "-f", fmt, link
+            )
+            if stdout:
+                stream_url = stdout.decode().split("\n")[0].strip()
+                if stream_url and stream_url.startswith("http"):
+                    return (1, stream_url)
+            await asyncio.sleep(1)
+
+        return (0, error_msg or "All audio format attempts failed")
+
+    @capture_internal_err
     async def playlist(self, link: str, limit: int, user_id, videoid: Union[str, bool, None] = None) -> List[str]:
         if videoid:
             link = self.playlist_url + str(videoid)
@@ -935,7 +968,12 @@ class YouTubeAPI:
                     return final_path, True
             except Exception as e:
                 print(f"❌ Concurrent download error: {str(e)}")
-            
+
+            status, stream_url = await self.audio(link)
+            if status == 1:
+                print("✅ Audio stream URL")
+                return stream_url, None
+
             print("❌ All audio download methods failed")
             return None, None
 
