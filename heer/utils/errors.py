@@ -9,7 +9,7 @@ from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 
 from heer import app
 from config import LOGGER_ID, DEBUG_IGNORE_LOG
-from heer.utils.exceptions import is_ignored_error
+from heer.utils.exceptions import AssistantErr, is_ignored_error
 from heer.utils.pastebin import heerBIN
 
 
@@ -90,6 +90,8 @@ def capture_err(func):
             return await func(client, message, *args, **kwargs)
         except ChatWriteForbidden:
             await app.leave_chat(message.chat.id)
+        except AssistantErr:
+            raise
         except Exception as err:
             tb = "".join(traceback.format_exception(*sys.exc_info()))
             extras = {
@@ -112,6 +114,8 @@ def capture_callback_err(func):
     async def wrapper(client, callback_query, *args, **kwargs):
         try:
             return await func(client, callback_query, *args, **kwargs)
+        except AssistantErr:
+            raise
         except Exception as err:
             tb = "".join(traceback.format_exception(*sys.exc_info()))
             extras = {
@@ -131,6 +135,8 @@ def capture_internal_err(func):
     async def wrapper(*args, **kwargs):
         try:
             return await func(*args, **kwargs)
+        except AssistantErr:
+            raise
         except Exception as err:
             tb = "".join(traceback.format_exception(*sys.exc_info()))
             extras = {"Function": func.__name__}
