@@ -10,7 +10,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 import config
 from config import AYU, BANNED_USERS, lyrical
 from heer import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.utils import seconds_to_min, time_to_seconds
 from heer.utils.channelplay import get_channeplayCB
 from heer.utils.decorators.language import languageCB
@@ -358,7 +358,7 @@ async def play_command(
 
         else:
             try:
-                await VISHAL.stream_call(url)
+                await heer.stream_call(url)
             except NoActiveGroupCall:
                 await mystic.edit_text(_["black_9"])
                 return await app.send_message(
@@ -633,7 +633,7 @@ async def anonymous_check(client, CallbackQuery):
         pass
 
 
-@app.on_callback_query(filters.regex("VishalPlaylists") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("heerPlaylists") & ~BANNED_USERS)
 @languageCB
 @capture_callback_err
 async def play_playlists_command(client, CallbackQuery, _):

@@ -5,7 +5,7 @@ from pyrogram.enums import ChatType
 
 import config
 from heer import app
-from heer.core.call import VISHAL, autoend
+from heer.core.call import heer, autoend
 from heer.utils.database import get_client, is_active_chat, is_autoend
 
 
@@ -59,7 +59,7 @@ async def auto_end():
                     continue
                 autoend[chat_id] = {}
                 try:
-                    await VISHAL.stop_stream(chat_id)
+                    await heer.stop_stream(chat_id)
                 except:
                     continue
                 try:

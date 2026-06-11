@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from heer import YouTube, app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import db
 from heer.utils import AdminRightsCheck, seconds_to_min
 from heer.utils.inline import close_markup
@@ -56,7 +56,7 @@ async def seek_comm(cli, message: Message, _, chat_id):
     if "index_" in file_path:
         file_path = playing[0]["vidid"]
     try:
-        await VISHAL.seek_stream(
+        await heer.seek_stream(
             chat_id,
             file_path,
             seconds_to_min(to_seek),

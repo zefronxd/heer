@@ -30,7 +30,7 @@ async def get_gpt_response(prompt: str, model: str = "gpt-3.5-turbo") -> str:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {OPENROUTER_KEY}",
             "HTTP-Referer": "https://t.me/VaishalxMusic_robot",
-            "X-Title": "VishalxMusic",
+            "X-Title": "heerxMusic",
         }
         data = {
             "model": model,

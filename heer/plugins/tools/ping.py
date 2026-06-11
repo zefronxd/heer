@@ -4,7 +4,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from config import *
 from heer import app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.utils import bot_sys_stats
 from heer.utils.decorators.language import language
 from heer.utils.inline import supp_markup
@@ -19,7 +19,7 @@ async def ping_com(client, message: Message, _):
         video=PING_VID_URL,
         caption=_["ping_1"].format(app.mention),
     )
-    pytgping = await VISHAL.ping()
+    pytgping = await heer.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     await response.edit_text(

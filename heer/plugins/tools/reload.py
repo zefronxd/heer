@@ -6,7 +6,7 @@ from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import CallbackQuery, Message
 
 from heer import app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import db
 from heer.utils.database import get_assistant, get_authuser_names, get_cmode
 from heer.utils.decorators import AdminActual, language
@@ -55,7 +55,7 @@ async def restart_bot(client, message: Message, _):
 
     try:
         db[message.chat.id] = []
-        await VISHAL.force_stop_stream(message.chat.id)
+        await heer.force_stop_stream(message.chat.id)
     except:
         pass
 
@@ -72,7 +72,7 @@ async def restart_bot(client, message: Message, _):
             userbot = await get_assistant(chat_id)
             await userbot.resolve_peer(got.username or chat_id)
             db[chat_id] = []
-            await VISHAL.force_stop_stream(chat_id)
+            await heer.force_stop_stream(chat_id)
         except:
             pass
 

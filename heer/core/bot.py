@@ -6,7 +6,7 @@ import config
 from ..logging import LOGGER
 
 
-class VISHAL(Client):
+class heer(Client):
     def __init__(self):
         super().__init__(
             name="heer",

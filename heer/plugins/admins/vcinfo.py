@@ -3,7 +3,7 @@ from pyrogram.types import Message
 
 from config import BANNED_USERS
 from heer import app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.utils.database import group_assistant
 from heer.utils.admin_filters import admin_filter
 
@@ -12,7 +12,7 @@ from heer.utils.admin_filters import admin_filter
 async def vc_info(client, message: Message):
     chat_id = message.chat.id
     try:
-        assistant = await group_assistant(VISHAL, chat_id)
+        assistant = await group_assistant(heer, chat_id)
         participants = await assistant.get_participants(chat_id)
 
         if not participants:

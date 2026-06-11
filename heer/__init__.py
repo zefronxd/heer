@@ -1,4 +1,4 @@
-from heer.core.bot import VISHAL
+from heer.core.bot import heer
 from heer.core.dir import dirr
 from heer.core.git import git
 from heer.core.userbot import Userbot
@@ -11,7 +11,7 @@ git()
 dbb()
 heroku()
 
-app = VISHAL()
+app = heer()
 userbot = Userbot()
 
 

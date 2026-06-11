@@ -8,7 +8,7 @@ from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 import config
 from heer import app
 from heer.misc import db
-from heer.utils import VISHALBIN, get_channeplayCB, seconds_to_min
+from heer.utils import heerBIN, get_channeplayCB, seconds_to_min
 from heer.utils.database import get_cmode, is_active_chat, is_music_playing
 from heer.utils.decorators.language import language, languageCB
 from heer.utils.inline import queue_back_markup, queue_markup
@@ -176,7 +176,7 @@ async def queued_tracks(client, CallbackQuery: CallbackQuery, _):
             return await CallbackQuery.edit_message_text(msg, reply_markup=buttons)
         if "✨" in msg:
             msg = msg.replace("✨", "")
-        link = await VISHALBIN(msg)
+        link = await heerBIN(msg)
         med = InputMediaPhoto(media=link, caption=_["queue_3"].format(link))
         await CallbackQuery.edit_message_media(media=med, reply_markup=buttons)
     else:

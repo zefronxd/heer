@@ -7,6 +7,6 @@ pip install --upgrade pip
 echo "Installing requirements..."
 pip install -r requirements.txt
 
-echo "Starting Vishal Music Bot..."
+echo "Starting heer Music Bot..."
 python3 -m heer
  

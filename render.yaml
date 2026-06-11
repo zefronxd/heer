@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: vishal-music-bot
+    name: heer-music-bot
     runtime: python311
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python3 -m heer"

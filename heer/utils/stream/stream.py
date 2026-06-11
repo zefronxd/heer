@@ -6,13 +6,13 @@ from pyrogram.types import InlineKeyboardMarkup
 
 import config
 from heer import Carbon, YouTube, app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import db
 from heer.utils.autoplay_utils import is_autoplay_on
 from heer.utils.database import add_active_video_chat, is_active_chat
 from heer.utils.exceptions import AssistantErr
 from heer.utils.inline import aq_markup, close_markup, stream_markup
-from heer.utils.pastebin import VISHALBIN
+from heer.utils.pastebin import heerBIN
 from heer.utils.stream.queue import put_queue, put_queue_index
 from heer.utils.thumbnails import get_thumb
 from heer.utils.errors import capture_internal_err
@@ -39,7 +39,7 @@ async def stream(
     is_video = bool(video)
 
     if forceplay:
-        await VISHAL.force_stop_stream(chat_id)
+        await heer.force_stop_stream(chat_id)
 
     if streamtype == "playlist":
         msg = f"{_['play_19']}\n\n"
@@ -89,7 +89,7 @@ async def stream(
                 if not file_path:
                     raise AssistantErr(_["play_14"])
 
-                await VISHAL.join_call(
+                await heer.join_call(
                     chat_id,
                     original_chat_id,
                     file_path,
@@ -127,7 +127,7 @@ async def stream(
 
         if count == 0:
             return
-        link = await VISHALBIN(msg)
+        link = await heerBIN(msg)
         lines = msg.count("\n")
         car = os.linesep.join(msg.split(os.linesep)[:17]) if lines >= 17 else msg
         try:
@@ -184,7 +184,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await VISHAL.join_call(
+            await heer.join_call(
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -249,7 +249,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await VISHAL.join_call(chat_id, original_chat_id, file_path, video=False)
+            await heer.join_call(chat_id, original_chat_id, file_path, video=False)
             await put_queue(
                 chat_id,
                 original_chat_id,
@@ -305,7 +305,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await VISHAL.join_call(chat_id, original_chat_id, file_path, video=is_video)
+            await heer.join_call(chat_id, original_chat_id, file_path, video=is_video)
             await put_queue(
                 chat_id,
                 original_chat_id,
@@ -366,7 +366,7 @@ async def stream(
             if not file_path:
                 raise AssistantErr(_["play_14"])
 
-            await VISHAL.join_call(
+            await heer.join_call(
                 chat_id,
                 original_chat_id,
                 file_path,
@@ -427,7 +427,7 @@ async def stream(
         else:
             if not forceplay:
                 db[chat_id] = []
-            await VISHAL.join_call(
+            await heer.join_call(
                 chat_id,
                 original_chat_id,
                 link,

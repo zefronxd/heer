@@ -18,7 +18,7 @@ from config import (
 )
 from strings import get_string
 from heer import YouTube, app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import SUDOERS, db
 from heer.utils.autoplay_utils import is_autoplay_on
 from heer.utils.database import (
@@ -151,7 +151,7 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_1"], show_alert=True)
         await callback.answer()
         await music_off(chat_id)
-        await VISHAL.pause_stream(chat_id)
+        await heer.pause_stream(chat_id)
         await callback.message.reply_text(_["admin_2"].format(user_mention), reply_markup=close_markup(_))
 
     elif command == "Resume":
@@ -159,12 +159,12 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_3"], show_alert=True)
         await callback.answer()
         await music_on(chat_id)
-        await VISHAL.resume_stream(chat_id)
+        await heer.resume_stream(chat_id)
         await callback.message.reply_text(_["admin_4"].format(user_mention), reply_markup=close_markup(_))
 
     elif command in ["Stop", "End"]:
         await callback.answer()
-        await VISHAL.stop_stream(chat_id)
+        await heer.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await callback.message.reply_text(_["admin_5"].format(user_mention), reply_markup=close_markup(_))
         await callback.message.delete()
@@ -174,7 +174,7 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_45"], show_alert=True)
         await callback.answer()
         await mute_on(chat_id)
-        await VISHAL.mute_stream(chat_id)
+        await heer.mute_stream(chat_id)
         await callback.message.reply_text(_["admin_46"].format(user_mention))
 
     elif command == "Unmute":
@@ -182,7 +182,7 @@ async def manage_callback(client, callback: CallbackQuery, _):
             return await callback.answer(_["admin_47"], show_alert=True)
         await callback.answer()
         await mute_off(chat_id)
-        await VISHAL.unmute_stream(chat_id)
+        await heer.unmute_stream(chat_id)
         await callback.message.reply_text(_["admin_48"].format(user_mention))
 
     elif command == "Loop":
@@ -231,7 +231,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
                     _["admin_6"].format(user_mention, callback.message.chat.title),
                     reply_markup=close_markup(_)
                 )
-                return await VISHAL.stop_stream(chat_id)
+                return await heer.stop_stream(chat_id)
         except Exception:
             try:
                 await callback.edit_message_text(text_msg)
@@ -239,7 +239,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
                     _["admin_6"].format(user_mention, callback.message.chat.title),
                     reply_markup=close_markup(_)
                 )
-                return await VISHAL.stop_stream(chat_id)
+                return await heer.stop_stream(chat_id)
             except Exception:
                 return
     else:
@@ -280,7 +280,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
         except Exception:
             image = None
         try:
-            await VISHAL.skip_stream(chat_id, new_link, video=status, image=image)
+            await heer.skip_stream(chat_id, new_link, video=status, image=image)
         except Exception:
             return await callback.message.reply_text(_["call_6"])
         buttons = stream_markup(_, chat_id, autoplay_status=ap_status)
@@ -305,7 +305,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
         except Exception:
             image = None
         try:
-            await VISHAL.skip_stream(chat_id, file_path, video=status, image=image)
+            await heer.skip_stream(chat_id, file_path, video=status, image=image)
         except Exception:
             return await mystic.edit_text(_["call_6"])
         buttons = stream_markup(_, chat_id, autoplay_status=ap_status)
@@ -322,7 +322,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
 
     elif "index_" in queued:
         try:
-            await VISHAL.skip_stream(chat_id, videoid, video=status)
+            await heer.skip_stream(chat_id, videoid, video=status)
         except Exception:
             return await callback.message.reply_text(_["call_6"])
         buttons = stream_markup(_, chat_id, autoplay_status=ap_status)
@@ -344,7 +344,7 @@ async def handle_skip_replay(callback: CallbackQuery, _, chat_id: int, command: 
             except Exception:
                 image = None
         try:
-            await VISHAL.skip_stream(chat_id, queued, video=status, image=image)
+            await heer.skip_stream(chat_id, queued, video=status, image=image)
         except Exception:
             return await callback.message.reply_text(_["call_6"])
         if videoid == "telegram":
@@ -417,7 +417,7 @@ async def handle_seek(callback: CallbackQuery, _, chat_id: int, command: str, us
         if n == 0:
             return await mystic.edit_text(_["admin_22"])
     try:
-        await VISHAL.seek_stream(
+        await heer.seek_stream(
             chat_id,
             file_path,
             seconds_to_min(to_seek),

@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
 from heer import YouTube, app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import db
 from heer.utils.database import get_loop
 from heer.utils.decorators import AdminRightsCheck
@@ -48,7 +48,7 @@ async def skip(cli, message: Message, _, chat_id):
                                         ),
                                         reply_markup=close_markup(_),
                                     )
-                                    await VISHAL.stop_stream(chat_id)
+                                    await heer.stop_stream(chat_id)
                                 except:
                                     return
                                 break
@@ -75,7 +75,7 @@ async def skip(cli, message: Message, _, chat_id):
                     reply_markup=close_markup(_),
                 )
                 try:
-                    return await VISHAL.stop_stream(chat_id)
+                    return await heer.stop_stream(chat_id)
                 except:
                     return
         except:
@@ -86,7 +86,7 @@ async def skip(cli, message: Message, _, chat_id):
                     ),
                     reply_markup=close_markup(_),
                 )
-                return await VISHAL.stop_stream(chat_id)
+                return await heer.stop_stream(chat_id)
             except:
                 return
     queued = check[0]["file"]
@@ -111,7 +111,7 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             image = None
         try:
-            await VISHAL.skip_stream(chat_id, link, video=status, image=image)
+            await heer.skip_stream(chat_id, link, video=status, image=image)
         except:
             return await message.reply_text(_["call_6"])
         button = stream_markup(_, chat_id)
@@ -144,7 +144,7 @@ async def skip(cli, message: Message, _, chat_id):
         except:
             image = None
         try:
-            await VISHAL.skip_stream(chat_id, file_path, video=status, image=image)
+            await heer.skip_stream(chat_id, file_path, video=status, image=image)
         except:
             return await mystic.edit_text(_["call_6"])
         button = stream_markup(_, chat_id)
@@ -164,7 +164,7 @@ async def skip(cli, message: Message, _, chat_id):
         await mystic.delete()
     elif "index_" in queued:
         try:
-            await VISHAL.skip_stream(chat_id, videoid, video=status)
+            await heer.skip_stream(chat_id, videoid, video=status)
         except:
             return await message.reply_text(_["call_6"])
         button = stream_markup(_, chat_id)
@@ -186,7 +186,7 @@ async def skip(cli, message: Message, _, chat_id):
             except:
                 image = None
         try:
-            await VISHAL.skip_stream(chat_id, queued, video=status, image=image)
+            await heer.skip_stream(chat_id, queued, video=status, image=image)
         except:
             return await message.reply_text(_["call_6"])
         if videoid == "telegram":

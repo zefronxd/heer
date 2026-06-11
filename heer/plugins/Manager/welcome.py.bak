@@ -6,9 +6,9 @@ from pyrogram.errors import TopicClosed
 from heer import app
 from heer.mongo.welcomedb import is_on, set_state, bump, cool, auto_on
 
-BG_PATH = "heer/assets/vishal/welcome.png"
+BG_PATH = "heer/assets/heer/welcome.png"
 FALLBACK_PIC = "heer/assets/upic.png"
-FONT_PATH = "heer/assets/vishal/Arimo.ttf"
+FONT_PATH = "heer/assets/heer/Arimo.ttf"
 BTN_VIEW = "ıll ᴠɪᴇᴡ ᴍᴇᴍʙᴇʀ llı"
 BTN_ADD = "ıll ᴀᴅᴅ ᴍᴇ llı"
 
@@ -106,7 +106,7 @@ def build_pic(av, fn, uid, un):
     # Note: I've made educated guesses for the high-resolution coordinates. 
     # If the text still doesn't appear correctly, you will need to manually adjust 
     # NAME_X/Y, ID_X/Y, and USERNAME_X/Y based on the exact resolution of your 
-    # 'heer/assets/vishal/welcome.png' file.
+    # 'heer/assets/heer/welcome.png' file.
 
     path = f"downloads/welcome_{uid}.png"
     bg.save(path)
@@ -115,7 +115,7 @@ def build_pic(av, fn, uid, un):
 
 @app.on_message(filters.command("welcome") & filters.group)
 async def toggle(client, m: Message):
-    usage = "**Usage:**\n⦿/welcome [on|off]\n➤ Vishal Special Welcome....."
+    usage = "**Usage:**\n⦿/welcome [on|off]\n➤ heer Special Welcome....."
     if len(m.command) != 2:
         return await m.reply_text(usage)
     u = await client.get_chat_member(m.chat.id, m.from_user.id)

@@ -8,7 +8,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
 from heer import LOGGER, app, userbot
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import sudo
 from heer.plugins import ALL_MODULES
 from heer.utils.database import get_banned_users, get_gbanned
@@ -53,10 +53,10 @@ async def init():
     LOGGER("heer.plugins").info("ᴍᴏᴅᴜʟᴇs ʟᴏᴀᴅᴇᴅ...")
 
     await userbot.start()
-    await VISHAL.start()
+    await heer.start()
 
     try:
-        await VISHAL.stream_call("https://files.catbox.moe/oxty8c.mp4")
+        await heer.stream_call("https://files.catbox.moe/oxty8c.mp4")
     except NoActiveGroupCall:
         LOGGER("heer").error(
             "ᴘʟᴇᴀsᴇ ᴛᴜʀɴ ᴏɴ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴏғ ʏᴏᴜʀ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ.\n\nʙᴏᴛ sᴛᴏᴘᴘᴇᴅ..."
@@ -65,8 +65,8 @@ async def init():
     except:
         pass
 
-    await VISHAL.decorators()
-    LOGGER("heer").info("✅ Vishal music Bot Started Successfully!")
+    await heer.decorators()
+    LOGGER("heer").info("✅ heer music Bot Started Successfully!")
     await idle()
     await app.stop()
     await userbot.stop()

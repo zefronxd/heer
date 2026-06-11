@@ -38,16 +38,16 @@
     <tr>
       <td align="center">
         <a href="https://github.com/zefronxd/heer/stargazers">
-          <img src="https://img.shields.io/github/stars/ItsMeVishal0/heer?style=for-the-badge&logo=github&logoColor=white&color=FFD700&label=STARS" />
+          <img src="https://img.shields.io/github/stars/ItsMeheer0/heer?style=for-the-badge&logo=github&logoColor=white&color=FFD700&label=STARS" />
         </a>
       </td>
       <td align="center">
         <a href="https://github.com/zefronxd/heer/network/members">
-          <img src="https://img.shields.io/github/forks/ItsMeVishal0/heer?style=for-the-badge&logo=git&logoColor=white&color=00FF00&label=FORKS" />
+          <img src="https://img.shields.io/github/forks/ItsMeheer0/heer?style=for-the-badge&logo=git&logoColor=white&color=00FF00&label=FORKS" />
         </a>
       </td>
       <td align="center">
-        <a href="https://komarev.com/ghpvc/?username=ItsMeVishal0">
+        <a href="https://komarev.com/ghpvc/?username=ItsMeheer0">
           <img src="https://img.shields.io/badge/👁️_VIEWS-8A2BE2?style=for-the-badge&logo=eyeem&logoColor=white" />
         </a>
       </td>

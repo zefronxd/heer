@@ -3,7 +3,7 @@ from pyrogram.types import Message
 
 from config import BANNED_USERS, adminlist
 from heer import app
-from heer.core.call import VISHAL
+from heer.core.call import heer
 from heer.misc import SUDOERS, db
 from heer.utils import AdminRightsCheck
 from heer.utils.database import is_active_chat, is_nonadmin_chat
@@ -94,7 +94,7 @@ async def manage_callback(client, CallbackQuery, _):
         text=_["admin_32"].format(CallbackQuery.from_user.mention),
     )
     try:
-        await VISHAL.speedup_stream(
+        await heer.speedup_stream(
             chat_id,
             file_path,
             speed,

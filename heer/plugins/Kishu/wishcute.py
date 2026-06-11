@@ -4,7 +4,7 @@ import random
 import requests
 from heer import app
 
-SUPPORT_CHAT = "ItsMeVishalSupport"
+SUPPORT_CHAT = "ItsMeheerSupport"
 SUPPORT_BTN = InlineKeyboardMarkup(
     [[InlineKeyboardButton("ꜱᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}")]]
 )

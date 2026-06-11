@@ -56,7 +56,7 @@ async def safe_photo(uid: int, name: str) -> Path:
 
 
 async def generate_image(chat_id: int, uid1: int, uid2: int, date: str) -> str:
-    base = Image.open(ASSETS / "vishal/couple.png").convert("RGBA")
+    base = Image.open(ASSETS / "heer/couple.png").convert("RGBA")
     p1 = await safe_photo(uid1, "pfp1.png")
     p2 = await safe_photo(uid2, "pfp2.png")
 

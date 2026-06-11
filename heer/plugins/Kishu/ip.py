@@ -164,7 +164,7 @@ async def ip_info_and_score(_, message):
 
     wait_msg = await message.reply_text("Analyzing IP… <i>fetching intelligence</i> 🔍")
 
-    async with httpx.AsyncClient(headers={"User-Agent": "VishalX/IpIntel/1.0"}) as client:
+    async with httpx.AsyncClient(headers={"User-Agent": "heerX/IpIntel/1.0"}) as client:
         ipinfo_task = fetch_ipinfo(client, ip_raw)
         ipqs_task = fetch_ipqs(client, ip_raw)
         ipinfo, score = await asyncio.gather(ipinfo_task, ipqs_task)
